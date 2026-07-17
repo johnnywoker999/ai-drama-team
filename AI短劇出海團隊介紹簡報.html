@@ -64,14 +64,18 @@
   .org-box { padding: 14px 20px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: var(--radius); min-width: 180px; backdrop-filter: blur(4px); }
   .org-box .gn { font-size: 13px; font-weight: 500; color: var(--accent2); margin-bottom: 4px; }
   .org-box .gi { font-size: 12px; color: var(--text3); line-height: 1.6; }
-  .nav { position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 10px; z-index: 100; background: rgba(0,0,0,0.6); padding: 5px 14px; border-radius: 9999px; border: 1px solid var(--border-sub); backdrop-filter: blur(8px); }
-  .nb { width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--border); background: transparent; color: var(--text3); font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
-  .nb:hover { background: rgba(255,255,255,0.05); color: var(--text); border-color: var(--accent); }
-  .nd { display: flex; gap: 4px; }
+  .nav { position: fixed; top: 50%; transform: translateY(-50%); z-index: 100; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .nav-left { left: 20px; }
+  .nav-right { right: 20px; }
+  .nb { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--border); background: rgba(0,0,0,0.5); color: var(--text2); font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; backdrop-filter: blur(4px); }
+  .nb:hover { background: rgba(255,255,255,0.1); color: var(--text); border-color: var(--accent); }
+  .nd { display: flex; flex-direction: column; gap: 4px; }
   .ndot { width: 5px; height: 5px; border-radius: 50%; background: var(--text4); cursor: pointer; transition: all 0.3s; }
-  .ndot.active { background: var(--accent); width: 18px; border-radius: 3px; }
-  .ni { font-size: 10px; color: var(--text4); min-width: 40px; text-align: center; font-weight: 500; }
-  @media (max-width: 768px) { html, body { overflow-x: hidden; } .slide { overflow-y: auto; -webkit-overflow-scrolling: touch; } .slide-inner { padding: 20px 14px 70px !important; } .inner { padding: 20px 14px 70px !important; } .cover h1 { font-size: 28px; letter-spacing: -0.62px; } .st { font-size: 20px; letter-spacing: -0.44px; } .g2, .g3, .g4 { grid-template-columns: 1fr; gap: 8px; } .org-row { flex-direction: column; align-items: center; } .org-box { min-width: unset; width: 100%; } .nav { bottom: 8px; padding: 4px 10px; position: sticky; } .card { padding: 14px; } .tl { flex-direction: column; } .tl-item { padding: 10px; } .adv-item { padding: 12px; } .cover h1 { font-size: 28px; } .kv { font-size: 18px; } }
+  .ndot.active { background: var(--accent); height: 16px; border-radius: 3px; }
+  .ni { font-size: 10px; color: var(--text4); text-align: center; font-weight: 500; margin-top: 4px; }
+  .member-grid { display: grid; grid-template-columns: 1fr; gap: 10px; flex: 1; align-content: start; overflow-y: auto; padding-right: 8px; }
+  .member-grid .card { height: 100%; display: flex; flex-direction: column; }
+  @media (max-width: 768px) { html, body { overflow-x: hidden; } .slide { overflow-y: auto; -webkit-overflow-scrolling: touch; } .slide-inner { padding: 20px 14px 20px !important; } .inner { padding: 20px 14px 20px !important; } .cover h1 { font-size: 28px; letter-spacing: -0.62px; } .st { font-size: 20px; letter-spacing: -0.44px; } .g2, .g3, .g4 { grid-template-columns: 1fr; gap: 8px; } .org-row { flex-direction: column; align-items: center; } .org-box { min-width: unset; width: 100%; } .nav-left, .nav-right { display: none; } .card { padding: 14px; } .tl { flex-direction: column; } .tl-item { padding: 10px; } .adv-item { padding: 12px; } .cover h1 { font-size: 28px; } .kv { font-size: 18px; } }
 </style>
 </head>
 <body>
@@ -110,14 +114,14 @@
   <div class="slide-overlay"></div>
   <div class="slide-inner">
     <div class="sl">02</div><div class="st">核心成員</div><div class="ss">跨領域專業組合，從策略到執行完整閉環</div><div class="dv"></div>
-    <div class="g3">
+    <div class="member-grid">
       <div class="card member"><div class="name">JOHNNY SHEN</div><div class="role">營運長 / 項目總負責</div><div class="bio">默墨文創營運長。世新傳播管理碩士，歷任奇樂互動執行經理、東森 YOYO 授權主任、司必佳貿易總經理、洛芙瀾科技技術顧問。</div></div>
       <div class="card member"><div class="name">蔡旻翰</div><div class="role">戲劇顧問</div><div class="bio">政治作戰學校上尉退役，知名製作人，戲劇經驗 30 年，製作無數知名戲劇。負責劇本品質把控、製作人脈整合與影視產業資源對接。</div></div>
       <div class="card member"><div class="name">AMY KUO</div><div class="role">行銷總監</div><div class="bio">曾任東森 YOYO 授權主任、奇樂互動娛樂業務經理。熟悉品牌授權、IP 營運與數位行銷策略，負責品牌合作與市場拓展。</div></div>
       <div class="card member"><div class="name">洪毓珍（米奇）</div><div class="role">美術顧問</div><div class="bio">知名戲劇美術指導，參與多部電影及電視製作，有「場景魔術師」之稱。負責 AI 短劇視覺風格與角色美學定位。</div></div>
       <div class="card member"><div class="name">蔡旻樺</div><div class="role">影像顧問</div><div class="bio">知名戲劇導演，節奏明快、條理清晰，為新一代新銳導演。負責 AI 短劇分鏡設計、鏡頭語言指導與導演視角把關。</div></div>
       <div class="card member"><div class="name">王兆彬</div><div class="role">營運顧問</div><div class="bio">山葉機車行銷企劃、大陸上島集團華南區執行副總、ZOCHA 連鎖電動租車集團執行長。提供營運管理與資源整合建議。</div></div>
-      <div class="card member" style="grid-column:2/3;"><div class="name">成竫</div><div class="role">AI 導演 / 編劇</div><div class="bio">專業導演組、動作組、現場 CG 特效、特效執行。負責 AI 短劇導演工作、劇本編寫、動作場面設計及後期特效把關。</div></div>
+      <div class="card member"><div class="name">成竫</div><div class="role">AI 導演 / 編劇</div><div class="bio">專業導演組、動作組、現場 CG 特效、特效執行。負責 AI 短劇導演工作、劇本編寫、動作場面設計及後期特效把關。</div></div>
     </div>
   </div>
 </div>
@@ -228,10 +232,12 @@
   </div>
 </div>
 
-<div class="nav">
+<div class="nav nav-left">
   <button class="nb" onclick="go(-1)">‹</button>
+  <div class="ni" id="ind">1 / 10</div>
+</div>
+<div class="nav nav-right">
   <div class="nd" id="dots"></div>
-  <span class="ni" id="ind"></span>
   <button class="nb" onclick="go(1)">›</button>
 </div>
 </div>
