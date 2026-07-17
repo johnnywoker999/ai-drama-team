@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 短劇出海團隊介紹</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #08090a; --surface: #0f1011; --surface2: #191a1b;
+    --border: rgba(255,255,255,0.08); --border-sub: rgba(255,255,255,0.05);
+    --text: #f7f8f8; --text2: #d0d6e0; --text3: #8a8f98; --text4: #62666d;
+    --accent: #7170ff; --accent2: #e8a838;
+    --radius: 8px; --radius-sm: 6px;
+    --font: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; background: #000; font-family: var(--font); font-feature-settings: 'cv01', 'ss03'; -webkit-font-smoothing: antialiased; overflow: hidden; }
+  .stage { position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: var(--bg); }
+  .slide { position: absolute; width: min(100vw, 1920px); height: min(100vh, 1080px); overflow: hidden; opacity: 0; visibility: hidden; transition: opacity 0.4s ease, visibility 0.4s ease; display: flex; flex-direction: column; background: var(--bg); }
+  .slide.active { opacity: 1; visibility: visible; }
+  .slide-bg { position: absolute; inset: 0; background-size: cover; background-position: center; transition: opacity 0.6s ease; }
+  .slide.active .slide-bg { opacity: 0.2; }
+  .slide-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(8,9,10,0.93) 0%, rgba(8,9,10,0.6) 100%); }
+  .slide-inner { position: relative; z-index: 2; flex: 1; padding: 56px 72px; display: flex; flex-direction: column; }
+  .sl { font-size: 13px; font-weight: 500; color: var(--accent); margin-bottom: 6px; }
+  .st { font-size: 44px; font-weight: 500; letter-spacing: -0.97px; color: var(--text); margin-bottom: 2px; }
+  .ss { font-size: 15px; font-weight: 400; color: var(--text3); margin-bottom: 28px; }
+  .dv { width: 28px; height: 3px; background: var(--accent2); margin-bottom: 28px; border-radius: 2px; }
+  .cover { align-items: center; justify-content: center; text-align: center; }
+  .cover .tag { font-size: 13px; font-weight: 500; color: var(--accent); letter-spacing: 2px; margin-bottom: 24px; position: relative; z-index: 2; }
+  .cover h1 { font-size: 76px; font-weight: 500; letter-spacing: -1.67px; color: var(--text); margin-bottom: 16px; position: relative; z-index: 2; }
+  .cover h1 span { color: var(--accent2); }
+  .cover .sub { font-size: 17px; font-weight: 400; color: var(--text3); margin-bottom: 40px; position: relative; z-index: 2; }
+  .cover .meta { font-size: 13px; color: var(--text4); position: relative; z-index: 2; }
+  .card { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; backdrop-filter: blur(4px); }
+  .card:hover { background: rgba(255,255,255,0.04); }
+  .ct { font-size: 17px; font-weight: 500; color: var(--text); margin-bottom: 6px; }
+  .cb { font-size: 13px; font-weight: 400; color: var(--text3); line-height: 1.55; }
+  .cl { font-size: 13px; color: var(--text3); line-height: 1.65; }
+  .cl li { padding: 2px 0 2px 14px; list-style: none; position: relative; }
+  .cl li::before { content: ''; position: absolute; left: 0; top: 10px; width: 4px; height: 4px; border-radius: 50%; background: var(--accent2); }
+  .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; flex: 1; align-content: center; }
+  .g3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; flex: 1; align-content: center; }
+  .member .name { font-size: 16px; font-weight: 500; color: var(--text); }
+  .member .role { font-size: 12px; font-weight: 500; color: var(--accent2); margin-bottom: 4px; }
+  .member .bio { font-size: 12px; color: var(--text3); line-height: 1.5; }
+  .adv-item { display: flex; gap: 14px; padding: 16px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: var(--radius); backdrop-filter: blur(4px); }
+  .adv-num { font-size: 20px; font-weight: 600; color: var(--accent2); min-width: 26px; }
+  .adv-text h4 { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 2px; }
+  .adv-text p { font-size: 12px; color: var(--text3); line-height: 1.5; }
+  .case h3 { font-size: 14px; font-weight: 500; color: var(--accent); margin-bottom: 6px; }
+  .case li { font-size: 12px; color: var(--text3); padding: 2px 0 2px 12px; list-style: none; position: relative; }
+  .case li::before { content: ''; position: absolute; left: 0; top: 8px; width: 4px; height: 4px; border-radius: 50%; background: var(--accent2); }
+  .fut-item { text-align: center; }
+  .fut-item .fi { font-size: 26px; margin-bottom: 6px; display: block; }
+  .fut-item h4 { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
+  .fut-item p { font-size: 12px; color: var(--text3); line-height: 1.4; }
+  .org { align-items: center; text-align: center; }
+  .org-node { display: inline-block; padding: 10px 28px; background: var(--accent); border-radius: var(--radius-sm); font-size: 15px; font-weight: 500; color: #fff; backdrop-filter: blur(4px); }
+  .org-arrow { font-size: 13px; color: var(--text4); margin: 6px 0; }
+  .org-row { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .org-box { padding: 14px 20px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: var(--radius); min-width: 180px; backdrop-filter: blur(4px); }
+  .org-box .gn { font-size: 13px; font-weight: 500; color: var(--accent2); margin-bottom: 4px; }
+  .org-box .gi { font-size: 12px; color: var(--text3); line-height: 1.6; }
+  .nav { position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 10px; z-index: 100; background: rgba(0,0,0,0.6); padding: 5px 14px; border-radius: 9999px; border: 1px solid var(--border-sub); backdrop-filter: blur(8px); }
+  .nb { width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--border); background: transparent; color: var(--text3); font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+  .nb:hover { background: rgba(255,255,255,0.05); color: var(--text); border-color: var(--accent); }
+  .nd { display: flex; gap: 4px; }
+  .ndot { width: 5px; height: 5px; border-radius: 50%; background: var(--text4); cursor: pointer; transition: all 0.3s; }
+  .ndot.active { background: var(--accent); width: 18px; border-radius: 3px; }
+  .ni { font-size: 10px; color: var(--text4); min-width: 40px; text-align: center; font-weight: 500; }
+  @media (max-width: 768px) { .slide-inner { padding: 24px 16px; } .cover h1 { font-size: 32px; letter-spacing: -0.7px; } .st { font-size: 24px; } .g2, .g3 { grid-template-columns: 1fr; gap: 10px; } .org-row { flex-direction: column; align-items: center; } }
+</style>
+</head>
+<body>
+<div class="stage">
+
+<!-- 1: COVER -->
+<div class="slide cover active" data-slide="0">
+  <div class="slide-bg" style="background-image:url('cover.png')"></div>
+  <div class="slide-overlay"></div>
+  <div>
+    <div class="tag">Cross-Disciplinary · AI · Global</div>
+    <h1>AI 短劇出海<br><span>團隊介紹</span></h1>
+    <div class="sub">跨領域整合 · AI 技術 · 全球化發行</div>
+    <div class="meta">默墨文創事業有限公司 · 2026</div>
+  </div>
+</div>
+
+<!-- 2: ABOUT -->
+<div class="slide" data-slide="1">
+  <div class="slide-bg" style="background-image:url('ai-production.png')"></div>
+  <div class="slide-overlay"></div>
+  <div class="slide-inner">
+    <div class="sl">01</div><div class="st">關於我們</div><div class="ss">十年積累 · 跨界融合 · AI 原生</div><div class="dv"></div>
+    <div class="g2">
+      <div class="card"><div class="ct">跨領域整合</div><div class="cb">結合數位行銷、系統開發、影視製作與 AI 技術的跨界團隊。核心成員來自網路行銷、媒體營運、戲劇製作與貿易管理等背景。</div></div>
+      <div class="card"><div class="ct">十年積累</div><div class="cb">由默墨文創事業有限公司（2012 年成立）為基礎發展，累積超過 10 年的整合行銷、活動策劃、影視場景經營與網路行銷經驗。</div></div>
+      <div class="card"><div class="ct">全球化視角</div><div class="cb">從第一天就面向全球市場，具備跨境貿易與國際行銷經驗。核心成員具備完整中英文市場操作能力，團隊遍佈台灣與海外。</div></div>
+      <div class="card"><div class="ct">AI 原生團隊</div><div class="cb">不是傳統影視團隊轉型 — 而是從技術與數據出發的 AI 原生內容工廠，實現從選題、製作到發布的全 AI 自動化管線。</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 3: MEMBERS -->
+<div class="slide" data-slide="2">
+  <div class="slide-bg" style="background-image:url('team.png')"></div>
+  <div class="slide-overlay"></div>
+  <div class="slide-inner">
+    <div class="sl">02</div><div class="st">核心成員</div><div class="ss">跨領域專業組合，從策略到執行完整閉環</div><div class="dv"></div>
+    <div class="g3">
+      <div class="card member"><div class="name">JOHNNY SHEN</div><div class="role">營運長 / 項目總負責</div><div class="bio">默墨文創營運長。世新傳播管理碩士，歷任奇樂互動執行經理、東森 YOYO 授權主任、司必佳貿易總經理、洛芙瀾科技技術顧問。</div></div>
+      <div class="card member"><div class="name">蔡旻翰</div><div class="role">戲劇顧問</div><div class="bio">政治作戰學校上尉退役，知名製作人，戲劇經驗 30 年，製作無數知名戲劇。負責劇本品質把控、製作人脈整合與影視產業資源對接。</div></div>
+      <div class="card member"><div class="name">AMY KUO</div><div class="role">行銷總監</div><div class="bio">曾任東森 YOYO 授權主任、奇樂互動娛樂業務經理。熟悉品牌授權、IP 營運與數位行銷策略，負責品牌合作與市場拓展。</div></div>
+      <div class="card member"><div class="name">洪毓珍（米奇）</div><div class="role">美術顧問</div><div class="bio">知名戲劇美術指導，參與多部電影及電視製作，有「場景魔術師」之稱。負責 AI 短劇視覺風格與角色美學定位。</div></div>
+      <div class="card member"><div class="name">蔡旻樺</div><div class="role">影像顧問</div><div class="bio">知名戲劇導演，節奏明快、條理清晰，為新一代新銳導演。負責 AI 短劇分鏡設計、鏡頭語言指導與導演視角把關。</div></div>
+      <div class="card member"><div class="name">王兆彬</div><div class="role">營運顧問</div><div class="bio">山葉機車行銷企劃、大陸上島集團華南區執行副總、ZOCHA 連鎖電動租車集團執行長。提供營運管理與資源整合建議。</div></div>
+      <div class="card member" style="grid-column:2/3;"><div class="name">成竫</div><div class="role">AI 導演 / 編劇</div><div class="bio">專業導演組、動作組、現場 CG 特效、特效執行。負責 AI 短劇導演工作、劇本編寫、動作場面設計及後期特效把關。</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 4: ORG -->
+<div class="slide" data-slide="3">
+  <div class="slide-bg" style="background-image:url('team.png')"></div>
+  <div class="slide-overlay"></div>
+  <div class="slide-inner org" style="justify-content:center;">
+    <div class="sl">03</div><div class="st">組織架構</div><div class="ss">三組協作 · 全鏈條閉環 · AI 驅動</div><div class="dv" style="margin:0 auto 24px auto;"></div>
+    <div class="org-node">執行長（策略總監）</div>
+    <div class="org-arrow">↓</div>
+    <div class="org-row">
+      <div class="org-box"><div class="gn">AI 內容組</div><div class="gi">AI 導演 · 編劇策劃 · 成竫<br>提示詞工程 · 角色資產庫</div></div>
+      <div class="org-box"><div class="gn">技術開發組</div><div class="gi">系統開發 · SEO 優化<br>站群製作 · AI Agent</div></div>
+      <div class="org-box"><div class="gn">出海增長組</div><div class="gi">投流優化 · 社群營運<br>數據分析 · 平台商務</div></div>
+    </div>
+    <div style="margin-top:20px;font-size:13px;color:var(--text4);">跨部門協作 · AI 驅動 · 全鏈條閉環</div>
+  </div>
+</div>
+
+<!-- 5: BIZ -->
+<div class="slide" data-slide="4">
+  <div class="slide-bg" style="background-image:url('ai-production.png')"></div>
+  <div class="slide-overlay"></div>
+  <div class="slide-inner">
+    <div class="sl">04</div><div class="st">主營業務</div><div class="ss">AI 內容製作 · 醫院實景棚 · 技術服務</div><div class="dv"></div>
+    <div class="g2">
+      <div class="card"><div class="ct">AI 短劇製作與出海</div><div class="cl"><li>全 AI 製作：劇本至後製全部 AI 化</li><li>混合製作：情感場景真人實拍，AI 換臉合成</li><li>多語言出海：中英日韓西葡印，AI 翻譯 + TTS</li><li>成本降 90%+，週期壓縮至 48 小時</li></div></div>
+      <div class="card"><div class="ct">醫院多功能實景棚</div><div class="cl"><li>全台唯一民國早期 + 現代醫院實景棚</li><li>1F：早期醫院、旅館、宿舍、辦公室</li><li>2F：現代醫院、辦公室、攝影棚家景</li><li>配套：道具租售、倉庫出租、醫療顧問</li></div></div>
+      <div class="card"><div class="ct">站群製作 & SEO 優化</div><div class="cl"><li>多站點建置與管理</li><li>中英文搜尋引擎優化</li><li>關鍵字策略、內容行銷、外鏈建設</li></div></div>
+      <div class="card"><div class="ct">系統開發 & 直播營運</div><div class="cl"><li>電商平台建置（Shopstore、自建站）</li><li>AI Agent 自動化工具開發</li><li>直播電商策劃 · 主播培訓 · 帶貨設計</li></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 6: ADVANTAGES -->
+<div class="slide" data-slide="5">
+  <div class="slide-bg" style="background-image:url('global.png')"></div>
+  <div class="slide-overlay"></div>
+  <div class="slide-inner">
+    <div class="sl">05</div><div class="st">核心優勢</div><div class="ss">六個差異化競爭力，構成難以複製的護城河</div><div class="dv"></div>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;flex:1;align-content:center;">
+      <div class="adv-item"><div class="adv-num">01</div><div class="adv-text"><h4>自有實景棚資產</h4><p>醫院多功能實景棚作為 Hybrid 製作基地，大幅降低外景與搭景成本</p></div></div>
+      <div class="adv-item"><div class="adv-num">02</div><div class="adv-text"><h4>跨領域團隊閉環</h4><p>行銷 · 開發 · 影視 · AI 四個領域在同一團隊內閉環協作</p></div></div>
+      <div class="adv-item"><div class="adv-num">03</div><div class="adv-text"><h4>全鏈條能力</h4><p>從選題分析到投流變現，全部內部完成，無外包依賴</p></div></div>
+      <div class="adv-item"><div class="adv-num">04</div><div class="adv-text"><h4>極低成本結構</h4><p>AI 管線將成本從 50-100 萬/部降至 3000-5000 元/部</p></div></div>
+      <div class="adv-item"><div class="adv-num">05</div><div class="adv-text"><h4>出海原生 DNA</h4><p>跨境貿易與國際行銷經驗，從第一天就面向全球市場</p></div></div>
+      <div class="adv-item"><div class="adv-num">06</div><div class="adv-text"><h4>AI 技術棧完整</h4><p>ComfyUI · Veo 3/Kling · Agent · 角色一致性 · TTS</p></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 7: CASES -->
+<div class="slide" data-slide="6">
+  <div class="slide-bg" style="background-image:url('technology.png')"></div>
+  <div class="slide-overlay"></div>
+  <div class="slide-inner">
+    <div class="sl">06</div><div class="st">成功案例</div><div class="ss">四大領域實績，驗證全鏈條能力</div><div class="dv"></div>
+    <div class="g2">
+      <div class="card case"><h3>AI 短劇製作</h3><li>完整 AI 短劇 SOP：腳本→角色→場景→抽卡→後製→多語言發布</li><li>單週可產出 3-5 部完整短劇，覆蓋中文與英文市場</li></div>
+      <div class="card case"><h3>SEO & 數位行銷</h3><li>多個垂直領域站群操作經驗</li><li>murmurtime / yamarules 品牌全案營運</li></div>
+      <div class="card case"><h3>系統開發</h3><li>電商系統建置維護、AI Agent 自動化工具</li><li>ComfyUI 排程生圖、FireCrawl 爬蟲、多平台排程發布</li></div>
+      <div class="card case"><h3>醫院實景棚</h3><li>提供數十部影視劇組拍攝服務</li><li>醫療專業顧問團隊支援</li></div>
+    </div>
+  </div>
+</div>
+
+<!-- 8: HOSPITAL -->
+<div class="slide" data-slide="7">
+  <div class="slide-bg" style="background-image:url('hospital.png')"></div>
+  <div class="slide-overlay"></div>
+  <div class="slide-inner">
+    <div class="sl">07</div><div class="st">實景棚核心資產</div><div class="ss">新店屈尺 · 老建物活化 · 全台唯一</div><div class="dv"></div>
+    <div class="g2">
+      <div class="card"><div class="ct">1F 場景配置</div><div class="cl"><li>民國早期醫院 — 候診區、病房、手術室、看診區</li><li>舊旅館 — 活動景片打造早期飯店旅店樣貌</li><li>員工宿舍 — 早期工廠住宿場域</li><li>早期辦公室 — 報社、警局、貿易公司</li></div></div>
+      <div class="card"><div class="ct">2F 場景配置</div><div class="cl"><li>現代醫院 — 急診室、手術室、停屍間、病房、診間</li><li>現代辦公室 — 現代辦公場域</li><li>攝影棚家景 — 廣告及戲劇用家景</li></div><div style="margin-top:10px;font-size:13px;font-weight:500;color:var(--accent);">配套服務</div><div class="cb">戲劇道具租售 · 倉庫出租 · 醫療顧問 · 影視教育</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 9: FUTURE -->
+<div class="slide" data-slide="8">
+  <div class="slide-bg" style="background-image:url('global.png')"></div>
+  <div class="slide-overlay"></div>
+  <div class="slide-inner">
+    <div class="sl">08</div><div class="st">未來方向</div><div class="ss">從內容 IP 到技術產品化，持續進化</div><div class="dv"></div>
+    <div class="g3">
+      <div class="card fut-item"><span class="fi">🎯</span><h4>短劇 IP 化</h4><p>將驗證高轉化題材發展為系列 IP</p></div>
+      <div class="card fut-item"><span class="fi">📚</span><h4>培訓賦能</h4><p>實戰經驗轉化為知識產品</p></div>
+      <div class="card fut-item"><span class="fi">🤝</span><h4>平台合作</h4><p>成為 ReelShort、DramaBox AI 內容供應商</p></div>
+      <div class="card fut-item"><span class="fi">👤</span><h4>自有演員庫</h4><p>孵化原創 AI 演員角色</p></div>
+      <div class="card fut-item"><span class="fi">⚙️</span><h4>技術產品化</h4><p>AI Agent 工具包裝為 SaaS</p></div>
+      <div class="card fut-item"><span class="fi">🎬</span><h4>Hybrid 深化</h4><p>AI + 真人混合製作模式</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 10: THANK YOU -->
+<div class="slide cover" data-slide="9">
+  <div class="slide-bg" style="background-image:url('cover.png')"></div>
+  <div class="slide-overlay"></div>
+  <div>
+    <div class="tag">默墨文創事業有限公司</div>
+    <h1>感謝您的<span>聆聽</span></h1>
+    <div class="sub">AI 短劇出海 · 跨領域整合 · 全球發行</div>
+    <div class="meta" style="margin-top:32px;line-height:2;">聯絡：JOHNNY SHEN · service@murmurtime.com<br>Based in Taiwan · Serving Global Markets</div>
+  </div>
+</div>
+
+<div class="nav">
+  <button class="nb" onclick="go(-1)">‹</button>
+  <div class="nd" id="dots"></div>
+  <span class="ni" id="ind"></span>
+  <button class="nb" onclick="go(1)">›</button>
+</div>
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide'); const total = slides.length; let cur = 0;
+const dots = document.getElementById('dots'); const ind = document.getElementById('ind');
+for (let i = 0; i < total; i++) { const d = document.createElement('div'); d.className = 'ndot' + (i === 0 ? ' active' : ''); d.onclick = () => show(i); dots.appendChild(d); }
+function show(i) { if (i < 0) i = total - 1; if (i >= total) i = 0; slides.forEach((s, idx) => { s.classList.toggle('active', idx === i); dots.children[idx].classList.toggle('active', idx === i); }); ind.textContent = (i + 1) + ' / ' + total; cur = i; try { localStorage.setItem('ppt', i); } catch(e) {} }
+function go(d) { show(cur + d); }
+document.addEventListener('keydown', e => { if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); go(1); } if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); go(-1); } if (e.key === 'Home') { e.preventDefault(); show(0); } if (e.key === 'End') { e.preventDefault(); show(total - 1); } });
+try { const s = parseInt(localStorage.getItem('ppt')); if (!isNaN(s) && s >= 0 && s < total) show(s); } catch(e) {}
+</script>
+</body>
+</html>

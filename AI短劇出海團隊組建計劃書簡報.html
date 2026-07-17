@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 短劇出海團隊組建計劃書</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #08090a; --surface: #0f1011; --border: rgba(255,255,255,0.08); --border-sub: rgba(255,255,255,0.05);
+    --text: #f7f8f8; --text2: #d0d6e0; --text3: #8a8f98; --text4: #62666d;
+    --accent: #7170ff; --accent2: #e8a838; --green: #27a644; --red: #e5484d; --orange: #e8a838;
+    --radius: 8px; --radius-sm: 6px; --font: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; background: #000; font-family: var(--font); font-feature-settings: 'cv01', 'ss03'; -webkit-font-smoothing: antialiased; overflow: hidden; }
+  .stage { position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: var(--bg); }
+  .slide { position: absolute; width: min(100vw, 1920px); height: min(100vh, 1080px); overflow: hidden; opacity: 0; visibility: hidden; transition: opacity 0.4s ease, visibility 0.4s ease; display: flex; flex-direction: column; background: var(--bg); }
+  .slide.active { opacity: 1; visibility: visible; }
+  .slide-bg { position: absolute; inset: 0; background-size: cover; background-position: center; transition: opacity 0.6s ease; }
+  .slide.active .slide-bg { opacity: 0.2; }
+  .slide-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(8,9,10,0.93) 0%, rgba(8,9,10,0.6) 100%); }
+  .inner { position: relative; z-index: 2; flex: 1; padding: 52px 64px; display: flex; flex-direction: column; }
+  .sl { font-size: 13px; font-weight: 500; color: var(--accent); margin-bottom: 6px; }
+  .st { font-size: 40px; font-weight: 500; letter-spacing: -0.88px; color: var(--text); margin-bottom: 2px; }
+  .ss { font-size: 14px; font-weight: 400; color: var(--text3); margin-bottom: 24px; }
+  .dv { width: 28px; height: 3px; background: var(--accent2); margin-bottom: 24px; border-radius: 2px; }
+  .cover { align-items: center; justify-content: center; text-align: center; }
+  .cover .tag { font-size: 13px; font-weight: 500; color: var(--accent); letter-spacing: 2px; margin-bottom: 24px; position: relative; z-index: 2; }
+  .cover h1 { font-size: 72px; font-weight: 500; letter-spacing: -1.58px; color: var(--text); margin-bottom: 16px; position: relative; z-index: 2; }
+  .cover h1 span { color: var(--accent2); }
+  .cover .sub { font-size: 16px; font-weight: 400; color: var(--text3); margin-bottom: 36px; position: relative; z-index: 2; }
+  .cover .meta { font-size: 13px; color: var(--text4); position: relative; z-index: 2; }
+  .card { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; backdrop-filter: blur(4px); }
+  .ct { font-size: 15px; font-weight: 500; color: var(--text); margin-bottom: 6px; }
+  .cb { font-size: 13px; color: var(--text3); line-height: 1.55; }
+  .cl { font-size: 12px; color: var(--text3); line-height: 1.6; }
+  .cl li { padding: 2px 0 2px 12px; list-style: none; position: relative; }
+  .cl li::before { content: ''; position: absolute; left: 0; top: 9px; width: 4px; height: 4px; border-radius: 50%; background: var(--accent2); }
+  .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; flex: 1; align-content: center; }
+  .g3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; flex: 1; align-content: center; }
+  .g4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; flex: 1; align-content: center; }
+  .kpi { text-align: center; padding: 14px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: var(--radius); backdrop-filter: blur(4px); }
+  .kv { font-size: 22px; font-weight: 500; color: var(--accent); }
+  .kl { font-size: 11px; color: var(--text4); margin-top: 3px; }
+  .phase { border-left: 3px solid var(--accent); padding-left: 12px; }
+  .phase .pt { font-size: 14px; font-weight: 500; color: var(--text); }
+  .phase .pd { font-size: 11px; color: var(--text4); margin-bottom: 4px; }
+  .phase .pi { font-size: 12px; color: var(--text3); line-height: 1.5; }
+  .tl { display: flex; gap: 8px; flex: 1; align-items: stretch; }
+  .tl-item { flex: 1; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; backdrop-filter: blur(4px); }
+  .tl-phase { font-size: 11px; font-weight: 600; margin-bottom: 4px; }
+  .tl-title { font-size: 12px; font-weight: 500; color: var(--text); margin-bottom: 6px; }
+  .tl-item li { font-size: 11px; color: var(--text3); padding: 2px 0 2px 10px; list-style: none; position: relative; }
+  .tl-item li::before { content: '·'; position: absolute; left: 0; color: var(--accent2); font-weight: 700; }
+  .nav { position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 10px; z-index: 100; background: rgba(0,0,0,0.6); padding: 5px 14px; border-radius: 9999px; border: 1px solid var(--border-sub); backdrop-filter: blur(8px); }
+  .nb { width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--border); background: transparent; color: var(--text3); font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+  .nb:hover { background: rgba(255,255,255,0.05); color: var(--text); border-color: var(--accent); }
+  .nd { display: flex; gap: 4px; }
+  .ndot { width: 5px; height: 5px; border-radius: 50%; background: var(--text4); cursor: pointer; transition: all 0.3s; }
+  .ndot.active { background: var(--accent); width: 18px; border-radius: 3px; }
+  .ni { font-size: 10px; color: var(--text4); min-width: 40px; text-align: center; font-weight: 500; }
+  @media (max-width: 768px) { .inner { padding: 20px 14px; } .cover h1 { font-size: 30px; } .st { font-size: 22px; } .g2, .g3, .g4 { grid-template-columns: 1fr; gap: 8px; } .tl { flex-direction: column; } }
+</style>
+</head>
+<body>
+<div class="stage">
+
+<!-- 1: COVER -->
+<div class="slide cover active" data-slide="0">
+  <div class="slide-bg" style="background-image:url('cover.png')"></div>
+  <div class="slide-overlay"></div>
+  <div>
+    <div class="tag">AI Short Drama · Overseas · Strategy</div>
+    <h1>AI 短劇出海<br><span>團隊組建計劃書</span></h1>
+    <div class="sub">市場分析 · 行業痛點 · 團隊架構 · 出海策略 · 培訓商業模式</div>
+    <div class="meta">默墨文創事業有限公司 · 2026</div>
+  </div>
+</div>
+
+<!-- 2: MARKET -->
+<div class="slide" data-slide="1">
+  <div class="slide-bg" style="background-image:url('global.png')"></div>
+  <div class="slide-overlay"></div>
+  <div class="inner">
+    <div class="sl">01</div><div class="st">市場全景分析</div><div class="ss">國內 350 億 + 海外 50 億美元</div><div class="dv"></div>
+    <div class="g4">
+      <div class="kpi"><div class="kv">110 億</div><div class="kl">2026 H1 國內 AI 短劇</div></div>
+      <div class="kpi"><div class="kv">350 億</div><div class="kl">2026 全年預測</div></div>
+      <div class="kpi"><div class="kv" style="color:var(--red);">12.8 萬部</div><div class="kl">Q1 上線微短劇</div></div>
+      <div class="kpi"><div class="kv" style="color:var(--green);">+92%</div><div class="kl">海外 IAP YoY</div></div>
+    </div>
+    <div class="g3" style="margin-top:8px;">
+      <div class="kpi"><div class="kv">$1 億</div><div class="kl">2025 AI 短劇出海</div></div>
+      <div class="kpi"><div class="kv" style="color:var(--accent2);">$6.5 億</div><div class="kl">2026 預計 (6x)</div></div>
+      <div class="kpi"><div class="kv" style="color:var(--green);">1 億</div><div class="kl">海外月活用戶</div></div>
+    </div>
+    <div class="card" style="margin-top:10px;">
+      <div class="ct" style="color:var(--accent2);font-size:14px;">關鍵判斷</div>
+      <div class="cl"><li>2026 H2 是最後黃金窗口，從成本紅利轉向內容紅利</li><li>99% 上線短劇播放量 <1 萬，精品化是必經之路</li></div>
+    </div>
+  </div>
+</div>
+
+<!-- 3: STRUCTURE -->
+<div class="slide" data-slide="2">
+  <div class="slide-bg" style="background-image:url('global.png')"></div>
+  <div class="slide-overlay"></div>
+  <div class="inner">
+    <div class="sl">02</div><div class="st">出海格局</div><div class="ss">雙寡頭佔 70% IAP</div><div class="dv"></div>
+    <div class="g4">
+      <div class="card"><div class="ct" style="font-size:13px;color:var(--accent);">Tier 1 領導者</div><div class="cl"><li>ReelShort：$600M gross</li><li>DramaBox：$323M</li></div></div>
+      <div class="card"><div class="ct" style="font-size:13px;color:var(--accent2);">Tier 2 追趕者</div><div class="cl"><li>SkyReels $28M/月</li><li>ShortMax · FlexTV</li></div></div>
+      <div class="card"><div class="ct" style="font-size:13px;color:var(--green);">Tier 3 AI 新勢力</div><div class="cl"><li>字節 Melolo</li><li>閱文 FlareFlow</li></div></div>
+      <div class="card"><div class="ct" style="font-size:13px;">新入局巨頭</div><div class="cl"><li>Netflix · Disney</li><li>Amazon</li></div></div>
+    </div>
+    <div class="card" style="margin-top:8px;"><div class="ct" style="font-size:13px;">市場關鍵數據</div><div class="cl"><li>ReelShort + DramaBox = ~70% IAP | 美國佔近一半 | 700+ 出版商競爭</li></div></div>
+  </div>
+</div>
+
+<!-- 4: PAIN POINTS -->
+<div class="slide" data-slide="3">
+  <div class="slide-bg" style="background-image:url('technology.png')"></div>
+  <div class="slide-overlay"></div>
+  <div class="inner">
+    <div class="sl">03</div><div class="st">行業痛點</div><div class="ss">同質化 · 技術瓶頸 · 信任危機</div><div class="dv"></div>
+    <div class="g3">
+      <div class="card"><div class="ct" style="font-size:13px;color:var(--accent);">內容層面</div><div class="cl"><li>AI 臉同質化，題材 62% 退婚/重生</li><li>爆款率 1/1000，「活人感」缺失</li></div></div>
+      <div class="card"><div class="ct" style="font-size:13px;color:var(--accent2);">技術與生產</div><div class="cl"><li>抽卡 7-8 次/片段，過審率 30%</li><li>角色一致性差，平台限流 AIGC</li></div></div>
+      <div class="card"><div class="ct" style="font-size:13px;color:var(--green);">商業與信任</div><div class="cl"><li>灰色 API，ROI 擊穿，80% 營收投流</li><li>版權灰色，500 元買斷素人</li></div></div>
+    </div>
+    <div class="card" style="margin-top:8px;"><div class="ct" style="font-size:14px;color:var(--accent2);">你的差異化機會</div><div class="cl"><li>AI 技術棧 + 自有醫院實景棚 + 輕量團隊 + 出海 DNA</li></div></div>
+  </div>
+</div>
+
+<!-- 5: HYBRID -->
+<div class="slide" data-slide="4">
+  <div class="slide-bg" style="background-image:url('ai-production.png')"></div>
+  <div class="slide-overlay"></div>
+  <div class="inner">
+    <div class="sl">04</div><div class="st">實拍與 AI 整合</div><div class="ss">實拍衰退 75%，Hybrid 是最優解</div><div class="dv"></div>
+    <div class="g4">
+      <div class="kpi"><div class="kv" style="color:var(--red);font-size:18px;">-30~50%</div><div class="kl">實拍 Q2 同比</div></div>
+      <div class="kpi"><div class="kv" style="color:var(--red);font-size:18px;">-75%</div><div class="kl">開機量</div></div>
+      <div class="kpi"><div class="kv" style="color:var(--red);font-size:16px;">50-100 萬</div><div class="kl">傳統成本/部</div></div>
+      <div class="kpi"><div class="kv" style="color:var(--green);font-size:18px;">3,000-5,000</div><div class="kl">AI 成本/部</div></div>
+    </div>
+    <div class="g2" style="margin-top:8px;">
+      <div class="card"><div class="ct" style="font-size:13px;">Hybrid Pipeline</div><div class="cl"><li>劇本 AI 輔助 (73% 時間)｜情感戲真人實拍</li><li>場景 AI 生成 (91% VFX)｜配音 87% 降本｜後製 75% 節省</li></div></div>
+      <div class="card"><div class="ct" style="font-size:13px;">行業先行案例</div><div class="cl"><li>Vigloo 6 週 90% 降本｜Reel.AI $10M ARR</li><li>Holywater $22M｜波斯復仇記 1200x ROI</li></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 6: HYBRID PHASES -->
+<div class="slide" data-slide="5">
+  <div class="slide-bg" style="background-image:url('ai-production.png')"></div>
+  <div class="slide-overlay"></div>
+  <div class="inner">
+    <div class="sl">05</div><div class="st">三階段路線</div><div class="ss">全 AI → Hybrid → 成熟 Pipeline</div><div class="dv"></div>
+    <div class="g3">
+      <div class="card phase"><div class="pt">Phase 1 (0-3月)</div><div class="pd">全 AI 測試</div><div class="pi">5-10 部快速測試市場<br>ComfyUI + Veo/Kling + TTS</div></div>
+      <div class="card phase"><div class="pt">Phase 2 (3-6月)</div><div class="pd" style="border-left-color:var(--accent2);">AI + 真人混合</div><div class="pi">引入真人實拍情感場景<br>AI 後製換臉/合成/配音</div></div>
+      <div class="card phase"><div class="pt">Phase 3 (6-12月)</div><div class="pd">Pipeline 成熟</div><div class="pi">真人 20-30% + AI 70-80%<br>自建演員庫 + 全自動多語言</div></div>
+    </div>
+    <div class="card" style="margin-top:8px;"><div class="ct" style="font-size:13px;color:var(--accent2);">成本對比</div><div class="cb">全 AI $1-3K/部 ｜ Hybrid $5-15K/部 ｜ 傳統 $50-150K/部 — 100-200 倍差距</div></div>
+  </div>
+</div>
+
+<!-- 7: TEAM -->
+<div class="slide" data-slide="6">
+  <div class="slide-bg" style="background-image:url('team.png')"></div>
+  <div class="slide-overlay"></div>
+  <div class="inner">
+    <div class="sl">06</div><div class="st">啟動期團隊</div><div class="ss">3-5 人，月費 $1,150-3,700</div><div class="dv"></div>
+    <div class="g2">
+      <div style="display:flex;flex-direction:column;gap:8px;justify-content:center;">
+        <div class="card" style="border-color:var(--accent);text-align:center;padding:14px;"><div style="font-size:14px;font-weight:500;color:var(--text);">AI 短劇製作人（你）</div></div>
+        <div style="text-align:center;font-size:13px;color:var(--text4);">↓</div>
+        <div class="g3" style="gap:8px;">
+          <div class="card" style="padding:12px;"><div style="font-size:12px;font-weight:500;color:var(--accent);">AI 導演</div><div style="font-size:10px;color:var(--text4);">$15-25K</div></div>
+          <div class="card" style="padding:12px;"><div style="font-size:12px;font-weight:500;color:var(--accent2);">編劇</div><div style="font-size:10px;color:var(--text4);">$15-20K</div></div>
+          <div class="card" style="padding:12px;"><div style="font-size:12px;font-weight:500;color:var(--green);">後製運營</div><div style="font-size:10px;color:var(--text4);">$10-15K</div></div>
+        </div>
+      </div>
+      <div class="card"><div class="ct" style="font-size:13px;color:var(--accent2);">核心人才策略</div><div class="cl"><li>編劇最稀缺 — contract 制一部 2000-8000 元</li><li>AI 導演最難找 — 兼備影視 + AI 工具</li><li>工具放大產能 — 30 分鐘 AI 初稿 vs 人工 3 天</li></div><div style="margin-top:8px;border-top:1px solid var(--border);padding-top:8px;"><div class="ct" style="font-size:12px;">成長期 8-12 人 → 規模期 20-30 人</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 8: TIMELINE -->
+<div class="slide" data-slide="7">
+  <div class="slide-bg" style="background-image:url('technology.png')"></div>
+  <div class="slide-overlay"></div>
+  <div class="inner">
+    <div class="sl">07</div><div class="st">組建時間線</div><div class="ss">0 → 規模化運轉只需 3 個月</div><div class="dv"></div>
+    <div class="tl">
+      <div class="tl-item"><div class="tl-phase" style="color:var(--accent);">Week 1</div><div class="tl-title">市場驗證</div><li>鎖定題材</li><li>Demo 測試</li></div>
+      <div class="tl-item"><div class="tl-phase" style="color:var(--accent);">Week 2</div><div class="tl-title">SOP 建立</div><li>角色庫</li><li>首部 5-8 集</li></div>
+      <div class="tl-item"><div class="tl-phase" style="color:var(--accent2);">Week 3-4</div><div class="tl-title">數據迭代</div><li>3-5 部</li><li>$500 投流</li></div>
+      <div class="tl-item"><div class="tl-phase" style="color:var(--green);">Month 2</div><div class="tl-title">規模準備</div><li>5-8 人</li><li>多語言</li></div>
+      <div class="tl-item"><div class="tl-phase" style="color:var(--orange);">Month 3</div><div class="tl-title">規模運轉</div><li>5-8 部/月</li><li>後鏈路</li></div>
+    </div>
+    <div class="card" style="margin-top:10px;"><div class="ct" style="font-size:13px;color:var(--accent2);">關鍵原則</div><div class="cl"><li>$1,150-3,700/月啟動｜ROI>1.2 再擴｜從第一天全球化</li></div></div>
+  </div>
+</div>
+
+<!-- 9: OVERSEAS -->
+<div class="slide" data-slide="8">
+  <div class="slide-bg" style="background-image:url('global.png')"></div>
+  <div class="slide-overlay"></div>
+  <div class="inner">
+    <div class="sl">08</div><div class="st">出海策略</div><div class="ss">三層本土化 + 區域矩陣</div><div class="dv"></div>
+    <div class="g2">
+      <div class="card"><div class="ct" style="font-size:13px;">本土化三層</div><div class="cl"><li>台詞本土化 — 俚語、幽默、語境</li><li>題材本土化 — 西方偏好奇幻/狼人</li><li>價值觀本土化 — 英雄主義 vs 集體</li></div></div>
+      <div class="card"><div class="ct" style="font-size:13px;">平台與後鏈路</div><div class="cl"><li>TikTok Q1 分成 $200 萬+ (+300%)</li><li>ReelShort IAP 55% 用戶願付費</li><li>短劇 → 網文 / 遊戲 / 品牌導流</li></div></div>
+    </div>
+    <div class="g4" style="margin-top:8px;">
+      <div class="kpi"><div class="kv" style="font-size:14px;">美/加</div><div class="kl">IAP 最高 ARPU</div></div>
+      <div class="kpi"><div class="kv" style="font-size:14px;">歐洲</div><div class="kl">IAP+廣告</div></div>
+      <div class="kpi"><div class="kv" style="font-size:14px;">東南亞</div><div class="kl">廣告變現</div></div>
+      <div class="kpi"><div class="kv" style="font-size:14px;">日韓</div><div class="kl">高 ARPU</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 10: TRAINING -->
+<div class="slide" data-slide="9">
+  <div class="slide-bg" style="background-image:url('technology.png')"></div>
+  <div class="slide-overlay"></div>
+  <div class="inner">
+    <div class="sl">09</div><div class="st">培訓商業模式</div><div class="ss">短劇 + 培訓 — 雙引擎飛輪</div><div class="dv"></div>
+    <div class="g4">
+      <div class="kpi"><div class="kv" style="font-size:18px;">5-8 億</div><div class="kl">中國市場</div></div>
+      <div class="kpi"><div class="kv" style="font-size:18px;">$500M+</div><div class="kl">英語市場</div></div>
+      <div class="kpi"><div class="kv" style="font-size:16px;color:var(--accent2);">$399/人</div><div class="kl">頭部定價</div></div>
+      <div class="kpi"><div class="kv" style="font-size:16px;color:var(--green);">500+ 人</div><div class="kl">每期學員</div></div>
+    </div>
+    <div class="g2" style="margin-top:8px;">
+      <div class="card"><div class="ct" style="font-size:13px;">課程產品矩陣</div><div class="cl"><li>$9.99-19 引流 → $99-249 核心 → $499-799 工作坊</li><li>$1,999-4,999 陪跑 → $3K-10K/天 企業 → $19-199/月 SaaS</li></div></div>
+      <div class="card"><div class="ct" style="font-size:13px;">收入預測 USD/月</div><div class="cl"><li>第 1 月 $500-2K ｜ 第 3 月 $5.5K-17K</li><li>第 6 月 $18K-50K ｜ 第 12 月 $55K-150K</li></div><div class="cb" style="margin-top:6px;color:var(--green);">⚡ 毛利 80%+，不依賴爆款運氣</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 11: FLYWHEEL -->
+<div class="slide" data-slide="10">
+  <div class="slide-bg" style="background-image:url('team.png')"></div>
+  <div class="slide-overlay"></div>
+  <div class="inner" style="justify-content:center;">
+    <div class="sl">10</div><div class="st">飛輪效應</div><div class="ss">兩個引擎互相餵養</div><div class="dv" style="margin:0 auto 16px auto;"></div>
+    <div class="g2" style="gap:20px;">
+      <div class="card" style="border-color:var(--accent);padding:20px;"><div style="font-size:16px;font-weight:500;color:var(--accent);margin-bottom:10px;">🎬 短劇製作</div><div class="cl"><li>積累實戰案例｜驗證工具流程</li><li>爆款提升權威｜學員擴充產能</li></div></div>
+      <div class="card" style="border-color:var(--accent2);padding:20px;"><div style="font-size:16px;font-weight:500;color:var(--accent2);margin-bottom:10px;">📚 培訓課程</div><div class="cl"><li>穩定現金流｜學員變人才池</li><li>分發工具｜品牌商務機會</li></div></div>
+    </div>
+    <div style="text-align:center;margin-top:12px;font-size:14px;color:var(--text3);">你做的每部短劇 = 培訓案例 ｜ 你教的每個學員 = 潛在製作夥伴</div>
+  </div>
+</div>
+
+<!-- 12: CHECKLIST -->
+<div class="slide" data-slide="11">
+  <div class="slide-bg" style="background-image:url('technology.png')"></div>
+  <div class="slide-overlay"></div>
+  <div class="inner">
+    <div class="sl">11</div><div class="st">行動 CheckList</div><div class="ss">Week 1 → Month 3</div><div class="dv"></div>
+    <div class="tl">
+      <div class="tl-item"><div class="tl-phase" style="color:var(--accent);">W1</div><div class="tl-title">驗證</div><li>題材調研</li><li>Demo 測試</li><li>編劇招募</li></div>
+      <div class="tl-item"><div class="tl-phase" style="color:var(--accent);">W2</div><div class="tl-title">SOP</div><li>角色資產庫</li><li>5-8 集</li><li>全流程</li></div>
+      <div class="tl-item"><div class="tl-phase" style="color:var(--accent2);">W3-4</div><div class="tl-title">迭代</div><li>3-5 部劇</li><li>$500 投流</li><li>ROI 確認</li></div>
+      <div class="tl-item"><div class="tl-phase" style="color:var(--green);">M2</div><div class="tl-title">擴充</div><li>5-8 人</li><li>多語言</li><li>Hybrid</li></div>
+      <div class="tl-item"><div class="tl-phase" style="color:var(--orange);">M3</div><div class="tl-title">規模</div><li>5-8 部/月</li><li>Agent 自動化</li><li>後鏈路</li></div>
+    </div>
+    <div class="card" style="margin-top:8px;"><div class="cl"><li>$1,150-3,700/月啟動｜ROI>1.2 再擴｜從第一天全球化</li></div></div>
+  </div>
+</div>
+
+<!-- 13: THANK YOU -->
+<div class="slide cover" data-slide="12">
+  <div class="slide-bg" style="background-image:url('cover.png')"></div>
+  <div class="slide-overlay"></div>
+  <div>
+    <div class="tag">默墨文創事業有限公司</div>
+    <h1>感謝您的<span>聆聽</span></h1>
+    <div class="sub">AI 短劇出海 · 跨領域整合 · 全球發行</div>
+    <div class="meta" style="margin-top:32px;line-height:2;">聯絡：JOHNNY SHEN · service@murmurtime.com<br>Based in Taiwan · Serving Global Markets</div>
+  </div>
+</div>
+
+<div class="nav">
+  <button class="nb" onclick="go(-1)">‹</button>
+  <div class="nd" id="dots"></div>
+  <span class="ni" id="ind"></span>
+  <button class="nb" onclick="go(1)">›</button>
+</div>
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide'); const total = slides.length; let cur = 0;
+const dots = document.getElementById('dots'); const ind = document.getElementById('ind');
+for (let i = 0; i < total; i++) { const d = document.createElement('div'); d.className = 'ndot' + (i === 0 ? ' active' : ''); d.onclick = () => show(i); dots.appendChild(d); }
+function show(i) { if (i < 0) i = total - 1; if (i >= total) i = 0; slides.forEach((s, idx) => { s.classList.toggle('active', idx === i); dots.children[idx].classList.toggle('active', idx === i); }); ind.textContent = (i + 1) + ' / ' + total; cur = i; try { localStorage.setItem('ppt2', i); } catch(e) {} }
+function go(d) { show(cur + d); }
+document.addEventListener('keydown', e => { if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); go(1); } if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); go(-1); } if (e.key === 'Home') { e.preventDefault(); show(0); } if (e.key === 'End') { e.preventDefault(); show(total - 1); } });
+try { const s = parseInt(localStorage.getItem('ppt2')); if (!isNaN(s) && s >= 0 && s < total) show(s); } catch(e) {}
+</script>
+</body>
+</html>
