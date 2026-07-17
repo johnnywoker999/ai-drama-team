@@ -67,6 +67,8 @@
   .nav { position: fixed; top: 50%; transform: translateY(-50%); z-index: 100; display: flex; flex-direction: column; align-items: center; gap: 8px; }
   .nav-left { left: 20px; }
   .nav-right { right: 20px; }
+  .home-btn { position: fixed; top: 16px; left: 16px; z-index: 101; width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border); background: rgba(0,0,0,0.5); color: var(--text3); font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: all 0.2s; backdrop-filter: blur(4px); }
+  .home-btn:hover { background: rgba(255,255,255,0.1); color: var(--text); border-color: var(--accent); }
   .nb { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--border); background: rgba(0,0,0,0.5); color: var(--text2); font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; backdrop-filter: blur(4px); }
   .nb:hover { background: rgba(255,255,255,0.1); color: var(--text); border-color: var(--accent); }
   .nd { display: flex; flex-direction: column; gap: 4px; }
@@ -75,12 +77,13 @@
   .ni { font-size: 10px; color: var(--text4); text-align: center; font-weight: 500; margin-top: 4px; }
   .member-grid { display: grid; grid-template-columns: 1fr; gap: 10px; flex: 1; align-content: start; overflow-y: auto; padding-right: 8px; }
   .member-grid .card { height: 100%; display: flex; flex-direction: column; }
-  @media (max-width: 768px) { html, body { overflow-x: hidden; } .slide { overflow-y: auto; -webkit-overflow-scrolling: touch; } .slide-inner { padding: 20px 14px 70px !important; } .inner { padding: 20px 14px 70px !important; } .cover h1 { font-size: 28px; letter-spacing: -0.62px; } .st { font-size: 20px; letter-spacing: -0.44px; } .g2, .g3, .g4 { grid-template-columns: 1fr; gap: 8px; } .org-row { flex-direction: column; align-items: center; } .org-box { min-width: unset; width: 100%; } .nav-left, .nav-right { position: fixed; top: auto; bottom: 12px; left: auto; right: auto; transform: none; flex-direction: row; gap: 6px; padding: 6px 12px; border-radius: 9999px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.08); } .nav-left { left: 50%; transform: translateX(-50%); } .nav-left .nb, .nav-right .nb { width: 32px; height: 32px; font-size: 16px; } .nav-right { right: 12px; bottom: 56px; } .nav-right .nd { flex-direction: row; } .nav-right .ndot.active { height: 5px; width: 18px; } .card { padding: 14px; } .tl { flex-direction: column; } .tl-item { padding: 10px; } .adv-item { padding: 12px; } .cover h1 { font-size: 28px; } .kv { font-size: 18px; } }
+  @media (max-width: 768px) { html, body { overflow-x: hidden; } .slide { overflow-y: auto; -webkit-overflow-scrolling: touch; } .slide-inner { padding: 20px 14px 70px !important; } .inner { padding: 20px 14px 70px !important; } .cover h1 { font-size: 28px; letter-spacing: -0.62px; } .st { font-size: 20px; letter-spacing: -0.44px; } .g2, .g3, .g4 { grid-template-columns: 1fr; gap: 8px; } .org-row { flex-direction: column; align-items: center; } .org-box { min-width: unset; width: 100%; } .home-btn { top: 8px; left: 8px; width: 30px; height: 30px; font-size: 14px; } .nav-left, .nav-right { position: fixed; top: auto; bottom: 12px; left: auto; right: auto; transform: none; flex-direction: row; gap: 6px; padding: 6px 12px; border-radius: 9999px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.08); } .nav-left { left: 50%; transform: translateX(-50%); } .nav-left .nb, .nav-right .nb { width: 32px; height: 32px; font-size: 16px; } .nav-right { right: 12px; bottom: 56px; } .nav-right .nd { flex-direction: row; } .nav-right .ndot.active { height: 5px; width: 18px; } .card { padding: 14px; } .tl { flex-direction: column; } .tl-item { padding: 10px; } .adv-item { padding: 12px; } .cover h1 { font-size: 28px; } .kv { font-size: 18px; } }
 </style>
 </head>
 <body>
 <div class="stage">
 
+<a href="index.html" class="home-btn" title="回到首頁">⌂</a>
 <!-- 1: COVER -->
 <div class="slide cover active" data-slide="0">
   <div class="slide-bg" style="background-image:url('cover.png')"></div>
