@@ -62,7 +62,7 @@
   .ndot { width: 5px; height: 5px; border-radius: 50%; background: var(--text4); cursor: pointer; transition: all 0.3s; }
   .ndot.active { background: var(--accent); height: 16px; border-radius: 3px; }
   .ni { font-size: 10px; color: var(--text4); text-align: center; font-weight: 500; margin-top: 4px; }
-  @media (max-width: 768px) { .inner { padding: 20px 14px; } .slide { overflow-y: auto; -webkit-overflow-scrolling: touch; } .cover h1 { font-size: 30px; } .st { font-size: 22px; } .g2, .g3, .g4 { grid-template-columns: 1fr; gap: 8px; } .tl { flex-direction: column; } .nav-left, .nav-right { display: none; } }
+  @media (max-width: 768px) { .inner { padding: 20px 14px 70px !important; } .slide { overflow-y: auto; -webkit-overflow-scrolling: touch; } .cover h1 { font-size: 30px; } .st { font-size: 22px; } .g2, .g3, .g4 { grid-template-columns: 1fr; gap: 8px; } .tl { flex-direction: column; } .nav-left, .nav-right { position: fixed; top: auto; bottom: 12px; left: auto; right: auto; transform: none; flex-direction: row; gap: 6px; padding: 6px 12px; border-radius: 9999px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.08); } .nav-left { left: 50%; transform: translateX(-50%); } .nav-left .nb, .nav-right .nb { width: 32px; height: 32px; font-size: 16px; } .nav-right { right: 12px; bottom: 56px; } .nav-right .nd { flex-direction: row; } .nav-right .ndot.active { height: 5px; width: 18px; } }
 </style>
 </head>
 <body>
