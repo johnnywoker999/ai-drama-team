@@ -56,15 +56,13 @@
   .nav { position: fixed; top: 50%; transform: translateY(-50%); z-index: 100; display: flex; flex-direction: column; align-items: center; gap: 8px; }
   .nav-left { left: 20px; }
   .nav-right { right: 20px; }
-  .home-btn { position: fixed; top: 16px; left: 16px; z-index: 101; width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border); background: rgba(0,0,0,0.5); color: var(--text3); font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: all 0.2s; backdrop-filter: blur(4px); }
-  .home-btn:hover { background: rgba(255,255,255,0.1); color: var(--text); border-color: var(--accent); }
-  .nb { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--border); background: rgba(0,0,0,0.5); color: var(--text2); font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; backdrop-filter: blur(4px); }
+  .nb { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--border); background: rgba(0,0,0,0.5); color: var(--text2); font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; backdrop-filter: blur(4px); text-decoration: none; }
   .nb:hover { background: rgba(255,255,255,0.1); color: var(--text); border-color: var(--accent); }
   .nd { display: flex; flex-direction: column; gap: 4px; }
   .ndot { width: 5px; height: 5px; border-radius: 50%; background: var(--text4); cursor: pointer; transition: all 0.3s; }
   .ndot.active { background: var(--accent); height: 16px; border-radius: 3px; }
   .ni { font-size: 10px; color: var(--text4); text-align: center; font-weight: 500; margin-top: 4px; }
-  @media (max-width: 768px) { .inner { padding: 20px 14px 70px !important; } .slide { overflow-y: auto; -webkit-overflow-scrolling: touch; } .cover h1 { font-size: 30px; } .st { font-size: 22px; } .g2, .g3, .g4 { grid-template-columns: 1fr; gap: 8px; } .tl { flex-direction: column; } .home-btn { top: 8px; left: 8px; width: 30px; height: 30px; font-size: 14px; } .nav-left, .nav-right { position: fixed; top: auto; bottom: 12px; left: auto; right: auto; transform: none; flex-direction: row; gap: 6px; padding: 6px 12px; border-radius: 9999px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.08); } .nav-left { left: 50%; transform: translateX(-50%); } .nav-left .nb, .nav-right .nb { width: 32px; height: 32px; font-size: 16px; } .nav-right { right: 12px; bottom: 56px; } .nav-right .nd { flex-direction: row; } .nav-right .ndot.active { height: 5px; width: 18px; } }
+  @media (max-width: 768px) { .inner { padding: 20px 14px 70px !important; } .slide { overflow-y: auto; -webkit-overflow-scrolling: touch; } .cover h1 { font-size: 30px; } .st { font-size: 22px; } .g2, .g3, .g4 { grid-template-columns: 1fr; gap: 8px; } .tl { flex-direction: column; } .nav-left, .nav-right { position: fixed; top: auto; bottom: 12px; left: auto; right: auto; transform: none; flex-direction: row; gap: 6px; padding: 6px 12px; border-radius: 9999px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.08); } .nav-left { left: 50%; transform: translateX(-50%); } .nav-left .nb, .nav-right .nb { width: 32px; height: 32px; font-size: 16px; } .nav-right { right: 12px; bottom: 56px; } .nav-right .nd { flex-direction: row; } .nav-right .ndot.active { height: 5px; width: 18px; } }
 </style>
 </head>
 <body>
@@ -292,6 +290,7 @@
 </div>
 
 <div class="nav nav-left">
+  <a href="index.html" class="nb" title="回到首頁">⌂</a>
   <button class="nb" onclick="go(-1)">‹</button>
   <div class="ni" id="ind">1 / 13</div>
 </div>
