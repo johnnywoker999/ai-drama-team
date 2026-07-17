@@ -13,5 +13,5 @@
 
 ---
 
-聯絡：service@murmurtime.com
+聯絡：johnny.scw@gmail.com
 Based in Taiwan · Serving Global Markets
